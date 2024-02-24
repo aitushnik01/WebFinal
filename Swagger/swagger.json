@@ -1,0 +1,171 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Book API",
+    "description": "API documentation for the Book API"
+  },
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "Get all books",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/books/add": {
+      "post": {
+        "summary": "Add a new book",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "New Book",
+                "author": "New Author",
+                "publish_year": 2023,
+                "pages_count": 250,
+                "price": 24.99
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Book added successfully"
+          }
+        }
+      }
+    },
+    "/books/{id}/update": {
+      "put": {
+        "summary": "Update a book by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the book to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "name": "Updated Book",
+                "author": "Updated Author",
+                "publish_year": 2024,
+                "pages_count": 300,
+                "price": 29.99
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Book updated successfully"
+          }
+        }
+      }
+    },
+    "/books/{id}/delete": {
+      "delete": {
+        "summary": "Delete a book by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the book to delete",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book deleted successfully"
+          }
+        }
+      }
+    },
+    "/books/author/{id}/books": {
+      "get": {
+        "summary": "Get books by author ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the author",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books by author retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "Author Book 1",
+                    "author": "Author Name",
+                    "publish_year": 2022,
+                    "pages_count": 200,
+                    "price": 19.99
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/genre/{id}/books": {
+      "get": {
+        "summary": "Get books by genre ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the genre",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books by genre retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "Genre Book 1",
+                    "author": "Author Name",
+                    "publish_year": 2022,
+                    "pages_count": 200,
+                    "price": 19.99
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
