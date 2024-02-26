@@ -2,6 +2,7 @@ const db = require('../Databases/dbSql')
 const { validationResult } = require('express-validator')
 const validation = require('../Utils/validation')
 const { sendEmailNotification } = require('../Services/emailService')
+const { checkManagerRole, checkAdminRole } = require('./authMiddleware');
 
 
 const bookController = {
@@ -115,6 +116,51 @@ const bookController = {
             res.status(500).json({ message: 'Error fetching books by genre' })
         }
     },
-}
+    module.exports = bookController
+    addBook: async (req, res) => {
+        try {
+            // Only Managers and Admins can add books
+            if (req.user.role !== 'Manager' && req.user.role !== 'Admin') {
+                return res.status(403).json({ message: 'Unauthorized' });
+            }
+            // Add book logic
+            // ...
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error adding book' });
+        }
+    },
 
-module.exports = bookController
+    updateBook: async (req, res) => {
+        try {
+            // Only Managers and Admins can update books
+            if (req.user.role !== 'Manager' && req.user.role !== 'Admin') {
+                return res.status(403).json({ message: 'Unauthorized' });
+            }
+            // Update book logic
+            // ...
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error updating book' });
+        }
+    },
+
+    deleteBook: async (req, res) => {
+        try {
+            // Only Admins can delete books
+            if (req.user.role !== 'Admin') {
+                return res.status(403).json({ message: 'Unauthorized' });
+            }
+            // Delete book logic
+            // ...
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error deleting book' });
+        }
+    },
+};
+
+
+module.exports = bookController;
+
+
