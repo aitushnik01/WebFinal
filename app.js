@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -25,4 +24,3 @@ app.use('/users', userRoutes);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-

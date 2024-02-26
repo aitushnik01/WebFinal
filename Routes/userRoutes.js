@@ -13,4 +13,10 @@ router.post('/register', [
 // Login
 router.post('/login', userController.login);
 
+// Generate OTP for a specific user
+router.post('/generate-otp/:userId', userController.generateOTPForUser);
+
+// Recover password with OTP
+router.post('/recover-password', userController.recoverPasswordWithOTP);
+
 module.exports = router;
