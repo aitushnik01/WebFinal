@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const bookController = require('../Controllers/bookController')
-const { validateBook, validate } = require('../utils/validation')
+const bookControllers = require('../Controllers/bookControllers')
+const { validateBook, validate } = require('../Utils/validation')
 
 /**
  * @swagger
@@ -12,7 +12,7 @@ const { validateBook, validate } = require('../utils/validation')
  *       200:
  *         description: Successful response
  */
-router.get('/', bookController.getAllBooks)
+router.get('/', bookControllers.getAllBooks)
 
 /**
  * @swagger
@@ -33,7 +33,7 @@ router.get('/', bookController.getAllBooks)
  *       201:
  *         description: Book added successfully
  */
-router.post('/add', validateBook(), validate, bookController.addBook)
+router.post('/add', validateBook(), validate, bookControllers.addBook)
 
 /**
  * @swagger
@@ -61,7 +61,7 @@ router.post('/add', validateBook(), validate, bookController.addBook)
  *       200:
  *         description: Book updated successfully
  */
-router.put('/:id/update', validateBook(), validate, bookController.updateBook)
+router.put('/:id/update', validateBook(), validate, bookControllers.updateBook)
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ router.put('/:id/update', validateBook(), validate, bookController.updateBook)
  *       200:
  *         description: Book deleted successfully
  */
-router.delete('/:id/delete', bookController.deleteBook)
+router.delete('/:id/delete', bookControllers.deleteBook)
 
 /**
  * @swagger
@@ -106,7 +106,7 @@ router.delete('/:id/delete', bookController.deleteBook)
  *                 pages_count: 200
  *                 price: 19.99
  */
-router.get('/author/:id/books', bookController.getBooksByAuthor)
+router.get('/author/:id/books', bookControllers.getBooksByAuthor)
 
 /**
  * @swagger
@@ -133,6 +133,6 @@ router.get('/author/:id/books', bookController.getBooksByAuthor)
  *                 pages_count: 200
  *                 price: 19.99
  */
-router.get('/genre/:id/books', bookController.getBooksByGenre)
+router.get('/genre/:id/books', bookControllers.getBooksByGenre)
 
 module.exports = router
