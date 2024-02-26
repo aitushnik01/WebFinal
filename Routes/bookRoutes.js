@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const bookControllers = require('../Controllers/bookControllers')
-const { validateBook, validate } = require('../Utils/validation')
+const bookController = require('../Controllers/bookControllers')
+const { validateBook, validate } = require('../utils/validation')
+
 
 /**
  * @swagger
@@ -106,7 +107,9 @@ router.delete('/:id/delete', bookControllers.deleteBook)
  *                 pages_count: 200
  *                 price: 19.99
  */
-router.get('/author/:id/books', bookControllers.getBooksByAuthor)
+
+//router.get('/author/:id/books', bookController.getBooksByAuthor)
+
 
 /**
  * @swagger
@@ -133,6 +136,8 @@ router.get('/author/:id/books', bookControllers.getBooksByAuthor)
  *                 pages_count: 200
  *                 price: 19.99
  */
-router.get('/genre/:id/books', bookControllers.getBooksByGenre)
+
+//router.get('/genre/:id/books', bookController.getBooksByGenre)
+
 
 module.exports = router
