@@ -2,7 +2,7 @@ const db = require('../Databases/dbSql');
 const { validationResult } = require('express-validator');
 const validation = require('../Utils/validation');
 const { sendEmailNotification } = require('../Services/emailService');
-const { checkManagerRole, checkAdminRole } = require('./authMiddleware');
+const { checkManagerRole, checkAdminRole } = require('../Middlewares/authMiddleware.js');
 
 const bookController = {
     getAllBooks: async (req, res) => {
