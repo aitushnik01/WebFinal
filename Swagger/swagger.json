@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Book API",
-    "description": "API documentation for the Book API"
+    "description": "API documentation for the Book API, or NOT"
   },
   "paths": {
     "/books": {
