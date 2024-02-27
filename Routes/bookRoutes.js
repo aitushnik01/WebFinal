@@ -13,7 +13,7 @@ const { validateBook, validate } = require('../utils/validation')
  *       200:
  *         description: Successful response
  */
-router.get('/', bookControllers.getAllBooks)
+router.get('/', bookController.getAllBooks)
 
 /**
  * @swagger
@@ -34,7 +34,7 @@ router.get('/', bookControllers.getAllBooks)
  *       201:
  *         description: Book added successfully
  */
-router.post('/add', validateBook(), validate, bookControllers.addBook)
+router.post('/add', validateBook(), validate, bookController.addBook)
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.post('/add', validateBook(), validate, bookControllers.addBook)
  *       200:
  *         description: Book updated successfully
  */
-router.put('/:id/update', validateBook(), validate, bookControllers.updateBook)
+router.put('/:id/update', validateBook(), validate, bookController.updateBook)
 
 /**
  * @swagger
@@ -80,7 +80,7 @@ router.put('/:id/update', validateBook(), validate, bookControllers.updateBook)
  *       200:
  *         description: Book deleted successfully
  */
-router.delete('/:id/delete', bookControllers.deleteBook)
+router.delete('/:id/delete', bookController.deleteBook)
 
 /**
  * @swagger
