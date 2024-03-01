@@ -1,65 +1,40 @@
 const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your-secret-key'; // Change this to your actual secret key
 
 const checkManagerRole = (req, res, next) => {
-    // Get token from cookies
+    // Check if token is present in request cookies
     const token = req.cookies.token;
 
+    // If token is not present, return unauthorized
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
     try {
-        // Verify and decode the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Extract user role from decoded token
-        const userRole = decoded.role;
+        // Verify the token
+        const decoded = jwt.verify(token, SECRET_KEY);
 
         // Check if user has manager role
-        if (userRole !== 'manager') {
+        if (decoded.role !== 'manager') {
             return res.status(403).json({ message: 'Unauthorized' });
         }
 
-        // Store user information in request object
+        // If user has manager role, proceed to next middleware
         req.user = decoded;
-
-        // Continue to the next middleware
         next();
     } catch (error) {
-        console.error(error);
+        // If token verification fails, return unauthorized
         return res.status(401).json({ message: 'Unauthorized' });
     }
 };
 
 const checkAdminRole = (req, res, next) => {
-    // Get token from cookies
-    const token = req.cookies.token;
-
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    try {
-        // Verify and decode the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // Extract user role from decoded token
-        const userRole = decoded.role;
-
-        // Check if user has admin role
-        if (userRole !== 'admin') {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
-
-        // Store user information in request object
-        req.user = decoded;
-
-        // Continue to the next middleware
-        next();
-    } catch (error) {
-        console.error(error);
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
+    // Similar implementation as checkManagerRole, but checking for admin role
 };
 
-module.exports = { checkManagerRole, checkAdminRole };
+const generateOTP = () => {
+    // Generate a 6-digit OTP (You can use any OTP generation library)
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+module.exports = { checkManagerRole, checkAdminRole, generateOTP };

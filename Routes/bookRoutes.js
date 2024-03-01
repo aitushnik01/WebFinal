@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bookController = require('../Controllers/bookControllers');
 const { validateBook, validate } = require('../utils/validation');
-const { checkManagerRole, checkAdminRole } = require('../Middlewares/authMiddleware'); // Import your authentication middleware
+const { checkManagerRole, checkAdminRole } = require('../Middlewares/authMiddleware.js');
 
 /**
  * @swagger
@@ -34,7 +34,7 @@ router.get('/', bookController.getAllBooks);
  *       201:
  *         description: Book added successfully
  */
-router.post('/add', validateBook(), validate, checkManagerRole, bookController.addBook); // Protect with manager role
+router.post('/add', validateBook(), validate, checkManagerRole, bookController.addBook);
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.post('/add', validateBook(), validate, checkManagerRole, bookController.a
  *       200:
  *         description: Book updated successfully
  */
-router.put('/:id/update', validateBook(), validate, checkManagerRole, bookController.updateBook); // Protect with manager role
+router.put('/:id/update', validateBook(), validate, checkManagerRole, bookController.updateBook);
 
 /**
  * @swagger
@@ -80,7 +80,7 @@ router.put('/:id/update', validateBook(), validate, checkManagerRole, bookContro
  *       200:
  *         description: Book deleted successfully
  */
-router.delete('/:id/delete', checkAdminRole, bookController.deleteBook); // Protect with admin role
+router.delete('/:id/delete', checkAdminRole, bookController.deleteBook);
 
 /**
  * @swagger
@@ -107,7 +107,9 @@ router.delete('/:id/delete', checkAdminRole, bookController.deleteBook); // Prot
  *                 pages_count: 200
  *                 price: 19.99
  */
-// router.get('/author/:id/books', bookController.getBooksByAuthor); // This route might not need authentication or authorization
+
+//router.get('/author/:id/books', bookController.getBooksByAuthor)
+
 
 /**
  * @swagger
@@ -134,6 +136,7 @@ router.delete('/:id/delete', checkAdminRole, bookController.deleteBook); // Prot
  *                 pages_count: 200
  *                 price: 19.99
  */
-// router.get('/genre/:id/books', bookController.getBooksByGenre); // This route might not need authentication or authorization
+
+//router.get('/genre/:id/books', bookController.getBooksByGenre)
 
 module.exports = router;

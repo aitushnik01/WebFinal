@@ -1,9 +1,12 @@
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const db = require('../Databases/dbSql');
 const { validationResult } = require('express-validator');
 const validation = require('../Utils/validation');
 const { sendEmailNotification } = require('../Services/emailService');
 const { checkManagerRole, checkAdminRole } = require('../Middlewares/authMiddleware.js');
-const jwt = require('jsonwebtoken');
+
+const SECRET_KEY = 'your_secret_key'; // Change this to a secure secret key
 
 const bookController = {
     getAllBooks: async (req, res) => {
@@ -18,6 +21,12 @@ const bookController = {
 
     addBook: async (req, res) => {
         try {
+            // Generate JWT token
+            const token = jwt.sign({ userId: req.user.id, role: req.user.role }, SECRET_KEY, { expiresIn: '1h' });
+
+            // Save token in cookies
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour expiration
+
             // Authorization - Only managers and admins can add books
             checkManagerRole(req, res, () => {
                 const newBook = req.body;
@@ -33,6 +42,12 @@ const bookController = {
 
     updateBook: async (req, res) => {
         try {
+            // Generate JWT token
+            const token = jwt.sign({ userId: req.user.id, role: req.user.role }, SECRET_KEY, { expiresIn: '1h' });
+
+            // Save token in cookies
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour expiration
+
             // Authorization - Only managers and admins can update books
             checkManagerRole(req, res, async () => {
                 // Validation
@@ -61,6 +76,12 @@ const bookController = {
 
     deleteBook: async (req, res) => {
         try {
+            // Generate JWT token
+            const token = jwt.sign({ userId: req.user.id, role: req.user.role }, SECRET_KEY, { expiresIn: '1h' });
+
+            // Save token in cookies
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour expiration
+
             // Authorization - Only Admins can delete books
             checkAdminRole(req, res, async () => {
                 const bookId = req.params.id;
@@ -79,27 +100,6 @@ const bookController = {
             res.status(500).json({ message: 'Error deleting book' });
         }
     },
-
-    login: async (req, res) => {
-        try {
-            // Authenticate user (e.g., check credentials against database)
-            const { username, password } = req.body;
-            const user = await db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
-
-            if (user.length > 0) {
-                // Generate JWT token
-                const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Set expiration time to 1 hour
-                // Save token in cookies
-                res.cookie('token', token, { httpOnly: true, secure: true });
-                res.json({ message: 'Login successful', token: token });
-            } else {
-                res.status(401).json({ message: 'Invalid credentials' });
-            }
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error logging in' });
-        }
-    }
 };
 
 module.exports = bookController;
